@@ -33,8 +33,8 @@ def pregunta_02():
     4
 
     """
-    return
-
+    number_column=tbl0.shape
+    return number_column[1]
 
 def pregunta_03():
     """
