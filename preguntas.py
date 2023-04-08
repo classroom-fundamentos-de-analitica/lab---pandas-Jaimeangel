@@ -66,8 +66,9 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    return
-
+    agrupar_letra=tbl0.groupby('_c1')
+    value_by_letter=agrupar_letra['_c2'].mean()
+    return value_by_letter
 
 def pregunta_05():
     """
