@@ -50,8 +50,9 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    return
-
+    columna_c1=tbl0['_c1'].value_counts()
+    columna_c1=columna_c1.sort_index()
+    return columna_c1
 
 def pregunta_04():
     """
