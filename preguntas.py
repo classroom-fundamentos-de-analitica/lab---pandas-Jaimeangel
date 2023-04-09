@@ -9,7 +9,7 @@ Utilice los archivos `tbl0.tsv`, `tbl1.tsv` y `tbl2.tsv`, para resolver las preg
 """
 import pandas as pd
 
-tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
+tbl1 = pd.read_csv("tbl0.tsv", sep="\t")
 tbl1 = pd.read_csv("tbl1.tsv", sep="\t")
 tbl2 = pd.read_csv("tbl2.tsv", sep="\t")
 
@@ -22,7 +22,7 @@ def pregunta_01():
     40
 
     """
-    return len(tbl0)
+    return len(tbl1)
 
 
 def pregunta_02():
@@ -33,7 +33,7 @@ def pregunta_02():
     4
 
     """
-    number_column=tbl0.shape
+    number_column=tbl1.shape
     return number_column[1]
 
 def pregunta_03():
@@ -50,7 +50,7 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    columna_c1=tbl0['_c1'].value_counts()
+    columna_c1=tbl1['_c1'].value_counts()
     columna_c1=columna_c1.sort_index()
     return columna_c1
 
@@ -66,7 +66,7 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    agrupar_letra=tbl0.groupby('_c1')
+    agrupar_letra=tbl1.groupby('_c1')
     value_by_letter=agrupar_letra['_c2'].mean()
     return value_by_letter
 
@@ -84,7 +84,7 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    agrupar_letra=tbl0.groupby('_c1')
+    agrupar_letra=tbl1.groupby('_c1')
     value_by_letter=agrupar_letra['_c2'].max()
     return value_by_letter
 
@@ -114,7 +114,7 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    agrupar_letra=tbl0.groupby('_c1')
+    agrupar_letra=tbl1.groupby('_c1')
     value_by_letter=agrupar_letra['_c2'].sum()
     return value_by_letter
 
@@ -133,8 +133,8 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    tbl0['suma']=tbl0['_c0']+ tbl0['_c2']
-    return tbl0
+    tbl1['suma']=tbl1['_c0']+ tbl1['_c2']
+    return tbl1
 
 
 def pregunta_09():
@@ -152,10 +152,10 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    tbl0['_c3'] = tbl0['_c3'].astype(str)
-    tbl0['year'] = tbl0['_c3'].str.extract(r'(\d{4})', expand=False)
-    tbl0['year'] = tbl0['year'].astype(int)
-    return tbl0
+    tbl1['_c3'] = tbl1['_c3'].astype(str)
+    tbl1['year'] = tbl1['_c3'].str.extract(r'(\d{4})', expand=False)
+    tbl1['year'] = tbl1['year'].astype(int)
+    return tbl1
 
 def pregunta_10():
     """
@@ -171,13 +171,13 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    letters = tbl0['_c1'].unique()
+    letters = tbl1['_c1'].unique()
     letters.sort()
 
     results = {'_c0': [], '_c1': []}
 
     for ltr in letters:
-        cadena=tbl0.loc[tbl0['_c1'] == ltr, '_c2'].astype(str).tolist()
+        cadena=tbl1.loc[tbl1['_c1'] == ltr, '_c2'].astype(str).tolist()
         cadena.sort()
         values_each_letter = ':'.join(cadena)
         results['_c0'].append(ltr)
@@ -204,8 +204,21 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    numbers = tbl1['_c0'].unique()
+    numbers.sort()
 
+    results = {'_c0': [], '_c4': []}
+
+    for n in numbers:
+        cadena=tbl1.loc[tbl1['_c0'] == n, '_c4'].astype(str).tolist()
+        cadena.sort()
+        values_each_letter = ','.join(cadena)
+        results['_c0'].append(n)
+        results['_c4'].append(values_each_letter)
+
+    new_table = pd.DataFrame(results)
+
+    return new_table
 
 def pregunta_12():
     """
