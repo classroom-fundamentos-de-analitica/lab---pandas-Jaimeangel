@@ -84,7 +84,9 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    return
+    agrupar_letra=tbl0.groupby('_c1')
+    value_by_letter=agrupar_letra['_c2'].max()
+    return value_by_letter
 
 
 def pregunta_06():
