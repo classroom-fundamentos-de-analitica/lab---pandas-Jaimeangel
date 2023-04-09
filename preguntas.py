@@ -152,8 +152,10 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    return
-
+    tbl0['_c3'] = tbl0['_c3'].astype(str)
+    tbl0['year'] = tbl0['_c3'].str.extract(r'(\d{4})', expand=False)
+    tbl0['year'] = tbl0['year'].astype(int)
+    return tbl0
 
 def pregunta_10():
     """
