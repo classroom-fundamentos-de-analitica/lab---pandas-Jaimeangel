@@ -98,8 +98,10 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
-
+    letters = tbl1['_c4'].unique()
+    upper_list = [x.upper() for x in letters]
+    upper_list.sort()
+    return upper_list
 
 def pregunta_07():
     """
