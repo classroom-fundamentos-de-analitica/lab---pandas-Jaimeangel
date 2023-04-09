@@ -268,5 +268,14 @@ def pregunta_13():
         D    112
         E    275
         Name: _c5b, dtype: int64
-    """
+    """ 
+    group_by_c0 = tbl2.groupby('_c0')
+    sum_number_by_c0 = group_by_c0.sum('_c5b')
     
+    merged_table = pd.merge(sum_number_by_c0, tbl0, on ='_c0')
+    
+    new_table = merged_table.loc[:,['_c1','_c5b']]
+    
+    group_by_letter = new_table.groupby('_c1')
+    sum_by_letter = group_by_letter['_c5b'].sum()
+    return sum_by_letter
