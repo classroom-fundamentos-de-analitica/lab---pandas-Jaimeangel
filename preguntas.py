@@ -171,7 +171,21 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    letters = tbl0['_c1'].unique()
+    letters.sort()
+
+    results = {'_c0': [], '_c1': []}
+
+    for ltr in letters:
+        cadena=tbl0.loc[tbl0['_c1'] == ltr, '_c2'].astype(str).tolist()
+        cadena.sort()
+        values_each_letter = ':'.join(cadena)
+        results['_c0'].append(ltr)
+        results['_c1'].append(values_each_letter)
+
+    new_table = pd.DataFrame(results)
+
+    return new_table
 
 
 def pregunta_11():
