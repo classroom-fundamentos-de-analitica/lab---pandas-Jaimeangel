@@ -9,7 +9,7 @@ Utilice los archivos `tbl0.tsv`, `tbl1.tsv` y `tbl2.tsv`, para resolver las preg
 """
 import pandas as pd
 
-tbl1 = pd.read_csv("tbl0.tsv", sep="\t")
+tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
 tbl1 = pd.read_csv("tbl1.tsv", sep="\t")
 tbl2 = pd.read_csv("tbl2.tsv", sep="\t")
 
@@ -222,34 +222,51 @@ def pregunta_11():
 
 def pregunta_12():
     """
-    Construya una tabla que contenga _c0 y una lista separada por ',' de los valores de
-    la columna _c5a y _c5b (unidos por ':') de la tabla `tbl2.tsv`.
+        Construya una tabla que contenga _c0 y una lista separada por ',' de los valores de
+        la columna _c5a y _c5b (unidos por ':') de la tabla `tbl2.tsv`.
 
-    Rta/
-        _c0                                  _c5
-    0     0        bbb:0,ddd:9,ggg:8,hhh:2,jjj:3
-    1     1              aaa:3,ccc:2,ddd:0,hhh:9
-    2     2              ccc:6,ddd:2,ggg:5,jjj:1
-    ...
-    37   37                    eee:0,fff:2,hhh:6
-    38   38                    eee:0,fff:9,iii:2
-    39   39                    ggg:3,hhh:8,jjj:5
+        Rta/
+            _c0                                  _c5
+        0     0        bbb:0,ddd:9,ggg:8,hhh:2,jjj:3
+        1     1              aaa:3,ccc:2,ddd:0,hhh:9
+        2     2              ccc:6,ddd:2,ggg:5,jjj:1
+        ...
+        37   37                    eee:0,fff:2,hhh:6
+        38   38                    eee:0,fff:9,iii:2
+        39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    numbers = tbl2['_c0'].unique()
+    numbers.sort()
 
+    results = {'_c0': [], '_c5': []}
+
+    for n in numbers:
+        cadena_letter=tbl2.loc[tbl2['_c0'] == n, '_c5a'].astype(str).tolist()
+        number=tbl2.loc[tbl2['_c0'] == n, '_c5b'].astype(str).tolist()
+
+        cadena = [':'.join(tuples) for tuples in zip(cadena_letter, number)]
+        cadena.sort()
+
+        values_each_letter = ','.join(cadena)
+        results['_c0'].append(n)
+        results['_c5'].append(values_each_letter)
+
+    new_table = pd.DataFrame(results)
+
+    return new_table
 
 def pregunta_13():
     """
-    Si la columna _c0 es la clave en los archivos `tbl0.tsv` y `tbl2.tsv`, compute la
-    suma de tbl2._c5b por cada valor en tbl0._c1.
+        Si la columna _c0 es la clave en los archivos `tbl0.tsv` y `tbl2.tsv`, compute la
+        suma de tbl2._c5b por cada valor en tbl0._c1.
 
-    Rta/
-    _c1
-    A    146
-    B    134
-    C     81
-    D    112
-    E    275
-    Name: _c5b, dtype: int64
+        Rta/
+        _c1
+        A    146
+        B    134
+        C     81
+        D    112
+        E    275
+        Name: _c5b, dtype: int64
     """
-    return
+    
