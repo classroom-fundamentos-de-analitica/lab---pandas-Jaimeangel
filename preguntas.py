@@ -22,8 +22,7 @@ def pregunta_01():
     40
 
     """
-    return
-
+    return len(tbl0)
 
 def pregunta_02():
     """
@@ -33,8 +32,8 @@ def pregunta_02():
     4
 
     """
-    return
-
+    number_column=tbl0.shape
+    return number_column[1]
 
 def pregunta_03():
     """
@@ -50,8 +49,9 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    return
-
+    columna_c1=tbl1['_c1'].value_counts()
+    columna_c1=columna_c1.sort_index()
+    return columna_c1
 
 def pregunta_04():
     """
@@ -65,8 +65,9 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    return
-
+    agrupar_letra=tbl1.groupby('_c1')
+    value_by_letter=agrupar_letra['_c2'].mean()
+    return value_by_letter
 
 def pregunta_05():
     """
@@ -82,7 +83,9 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    return
+    agrupar_letra=tbl1.groupby('_c1')
+    value_by_letter=agrupar_letra['_c2'].max()
+    return value_by_letter
 
 
 def pregunta_06():
@@ -94,8 +97,10 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
-
+    letters = tbl1['_c4'].unique()
+    upper_list = [x.upper() for x in letters]
+    upper_list.sort()
+    return upper_list
 
 def pregunta_07():
     """
@@ -110,8 +115,9 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    return
-
+    agrupar_letra=tbl1.groupby('_c1')
+    value_by_letter=agrupar_letra['_c2'].sum()
+    return value_by_letter
 
 def pregunta_08():
     """
@@ -128,7 +134,8 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    return
+    tbl1['suma']=tbl1['_c0']+ tbl1['_c2']
+    return tbl1
 
 
 def pregunta_09():
@@ -146,8 +153,10 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    return
-
+    tbl1['_c3'] = tbl1['_c3'].astype(str)
+    tbl1['year'] = tbl1['_c3'].str.extract(r'(\d{4})', expand=False)
+    tbl1['year'] = tbl1['year'].astype(int)
+    return tbl1
 
 def pregunta_10():
     """
@@ -163,7 +172,21 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    letters = tbl1['_c1'].unique()
+    letters.sort()
+
+    results = {'_c0': [], '_c1': []}
+
+    for ltr in letters:
+        cadena=tbl1.loc[tbl1['_c1'] == ltr, '_c2'].astype(str).tolist()
+        cadena.sort()
+        values_each_letter = ':'.join(cadena)
+        results['_c0'].append(ltr)
+        results['_c1'].append(values_each_letter)
+
+    new_table = pd.DataFrame(results)
+
+    return new_table
 
 
 def pregunta_11():
@@ -182,39 +205,78 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    numbers = tbl1['_c0'].unique()
+    numbers.sort()
 
+    results = {'_c0': [], '_c4': []}
+
+    for n in numbers:
+        cadena=tbl1.loc[tbl1['_c0'] == n, '_c4'].astype(str).tolist()
+        cadena.sort()
+        values_each_letter = ','.join(cadena)
+        results['_c0'].append(n)
+        results['_c4'].append(values_each_letter)
+
+    new_table = pd.DataFrame(results)
+
+    return new_table
 
 def pregunta_12():
     """
-    Construya una tabla que contenga _c0 y una lista separada por ',' de los valores de
-    la columna _c5a y _c5b (unidos por ':') de la tabla `tbl2.tsv`.
+        Construya una tabla que contenga _c0 y una lista separada por ',' de los valores de
+        la columna _c5a y _c5b (unidos por ':') de la tabla `tbl2.tsv`.
 
-    Rta/
-        _c0                                  _c5
-    0     0        bbb:0,ddd:9,ggg:8,hhh:2,jjj:3
-    1     1              aaa:3,ccc:2,ddd:0,hhh:9
-    2     2              ccc:6,ddd:2,ggg:5,jjj:1
-    ...
-    37   37                    eee:0,fff:2,hhh:6
-    38   38                    eee:0,fff:9,iii:2
-    39   39                    ggg:3,hhh:8,jjj:5
+        Rta/
+            _c0                                  _c5
+        0     0        bbb:0,ddd:9,ggg:8,hhh:2,jjj:3
+        1     1              aaa:3,ccc:2,ddd:0,hhh:9
+        2     2              ccc:6,ddd:2,ggg:5,jjj:1
+        ...
+        37   37                    eee:0,fff:2,hhh:6
+        38   38                    eee:0,fff:9,iii:2
+        39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    numbers = tbl2['_c0'].unique()
+    numbers.sort()
 
+    results = {'_c0': [], '_c5': []}
+
+    for n in numbers:
+        cadena_letter=tbl2.loc[tbl2['_c0'] == n, '_c5a'].astype(str).tolist()
+        number=tbl2.loc[tbl2['_c0'] == n, '_c5b'].astype(str).tolist()
+
+        cadena = [':'.join(tuples) for tuples in zip(cadena_letter, number)]
+        cadena.sort()
+
+        values_each_letter = ','.join(cadena)
+        results['_c0'].append(n)
+        results['_c5'].append(values_each_letter)
+
+    new_table = pd.DataFrame(results)
+
+    return new_table
 
 def pregunta_13():
     """
-    Si la columna _c0 es la clave en los archivos `tbl0.tsv` y `tbl2.tsv`, compute la
-    suma de tbl2._c5b por cada valor en tbl0._c1.
+        Si la columna _c0 es la clave en los archivos `tbl0.tsv` y `tbl2.tsv`, compute la
+        suma de tbl2._c5b por cada valor en tbl0._c1.
 
-    Rta/
-    _c1
-    A    146
-    B    134
-    C     81
-    D    112
-    E    275
-    Name: _c5b, dtype: int64
-    """
-    return
+        Rta/
+        _c1
+        A    146
+        B    134
+        C     81
+        D    112
+        E    275
+        Name: _c5b, dtype: int64
+    """ 
+    group_by_c0 = tbl2.groupby('_c0')
+    sum_number_by_c0 = group_by_c0.sum('_c5b')
+    
+    merged_table = pd.merge(sum_number_by_c0, tbl0, on ='_c0')
+    
+    new_table = merged_table.loc[:,['_c1','_c5b']]
+    
+    group_by_letter = new_table.groupby('_c1')
+    sum_by_letter = group_by_letter['_c5b'].sum()
+    return sum_by_letter
